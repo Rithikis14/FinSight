@@ -1,0 +1,32 @@
+# --- IDE / OS Files ---
+.idea/
+.vscode/
+*.swp
+*.DS_Store
+thumbs.db
+.env
+.env.local
+
+# --- Backend (Spring Boot / Maven) ---
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+backend/*.log
+backend/.factorypath
+backend/.project
+backend/.settings/
+backend/.classpath
+
+# --- Frontend (React / Vite / Node) ---
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.eslintcache
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# --- Database & AI ---
+# Prevent pushing local DB dumps or Ollama model configs if they're in-folder
+*.sql
+*.log
+backend/src/main/resources/application-local.yml

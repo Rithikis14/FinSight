@@ -85,8 +85,3 @@ Access the app at `http://localhost:5173`.
 
 ## 👤 Author
 **Rithik V Kumar** *Computer Science Engineering Student | Aspiring SDE & AI Engineer*
-
----
-
-### Pro-Tip for GitHub
-Add a **"How it works"** section with a simple diagram or a GIF of the AI chat in action. Recruiters love seeing that "Local RAG" is more than just a buzzword in your code—seeing the AI reference specific manual entries you made proves the logic works!

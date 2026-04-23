@@ -1,39 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/layout/Navbar';
-import Landing from './pages/Landing';
-import Dashboard from './pages/Dashboard';
-import Analysis from './pages/Analysis';
-import Auth from './pages/Auth';
-import Footer from './components/layout/Footer';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider, useAuth } from './context/AuthContext'
+import { ThemeProvider } from './context/ThemeContext'
+import LandingPage   from './pages/LandingPage'
+import AuthPage      from './pages/AuthPage'
+import DashboardPage from './pages/DashboardPage'
+import AiChatPage    from './pages/AiChatPage'
 
-function App() {
-  const [darkMode, setDarkMode] = useState(true);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
-
-  return (
-    <Router>
-      <div className="min-h-screen transition-colors duration-300 bg-lightBg dark:bg-darkBg text-slate-900 dark:text-slate-100">
-        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
-        <main className="container mx-auto px-4 pt-24">
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Auth />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/analysis" element={<Analysis />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Router>
-  );
+function PrivateRoute({ children }) {
+  const { user } = useAuth()
+  return user ? children : <Navigate to="/auth" replace />
 }
 
-export default App;
+function PublicRoute({ children }) {
+  const { user } = useAuth()
+  return !user ? children : <Navigate to="/dashboard" replace />
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/auth" element={
+              <PublicRoute><AuthPage /></PublicRoute>
+            } />
+            <Route path="/dashboard" element={
+              <PrivateRoute><DashboardPage /></PrivateRoute>
+            } />
+            <Route path="/ai" element={
+              <PrivateRoute><AiChatPage /></PrivateRoute>
+            } />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
+  )
+}
